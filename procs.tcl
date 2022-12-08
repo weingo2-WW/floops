@@ -1,11 +1,11 @@
 
 set origProcs [info procs]
-set ProcsDir [file dirname [file normalize [info script]]]
+set procs_dir [file dirname [file normalize [info script]]]
 
-source $ProcsDir/Models/Silicon/SiProcs.tcl
+source $procs_dir/Models/Silicon/SiProcs.tcl
 
-source $ProcsDir/Models/Utilities/ficks.tcl
-source $ProcsDir/Models/Utilities/arr.tcl
+source $procs_dir/Models/Utilities/ficks.tcl
+source $procs_dir/Models/Utilities/arr.tcl
 
 puts [ccolor::replace "<cb>Loaded procedures: </>"] 
 set procs [info procs]
