@@ -1,4 +1,3 @@
-pdbSetBoolean LevelSet gmsh 0
 ##########################################################################
 #
 #  This script is an example of sputter deposition of a material
@@ -61,7 +60,7 @@ init
 #define the plot window, then plot with the gas region
 window row=1 col=1 width=600 height=600
 plot2d clear
-plot2d grid gas xmin= -0.1
+plot2d grid gas xmin= -0.2
 
 
 
@@ -94,8 +93,8 @@ plot2d clear
 plot2d grid gas
 }
 
+# struct outfile=sputter_demo.tcl.gold.str
+__TestReturn [CompareStruct filename=sputter_demo.tcl.gold.str]
 
+ 
 
-
-
-gets stdin

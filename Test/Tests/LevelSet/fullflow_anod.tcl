@@ -48,7 +48,7 @@ region niob     xlo=T5  xhi=T6  ylo=S1  yhi=S2
 #create
 init
 
-window pngcairo file= fullflow.png row=1 col=1 width=500 height=500
+window row=1 col=1 width=500 height=500
 plot2d grid gas xlab= "" ylab= ""
 
 #--------------Define the mask edges----------------------------------------
@@ -116,12 +116,7 @@ sputter spac=2e-2 niob time=2.0
 plot2d clear
 plot2d grid gas 
 
-#-------------------Export the Structure for 3D processing--------------------
 
-#output all the nodes and boundaries in the mesh as Gmsh geometries
-struct gmsh_geo_write=full-flow.geo
-
-#output only material boundaries as Gmsh geometries
-struct gmsh_geo_contour_write=full-flow-bound.geo
-
+# struct outfile=fullflow_anod.tcl.gold.str
+__TestReturn [CompareStruct filename=fullflow_anod.tcl.gold.str]
 

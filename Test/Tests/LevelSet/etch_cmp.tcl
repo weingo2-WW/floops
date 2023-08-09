@@ -59,10 +59,8 @@ etch mat3 cmp rate=0.1 time=1.3 spacing=0.005
 plot2d clear
 plot2d grid gas
 
-#notes: Many of the mesh bugs that existed previously with this etch step have been corrected,
-# when gmsh is used.
 
-
-
+struct outfile=etch_cmp.tcl.gold.str
+__TestReturn [CompareStruct filename=etch_cmp.tcl.gold.str]
 
 

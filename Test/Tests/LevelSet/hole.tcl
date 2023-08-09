@@ -1,7 +1,3 @@
-pdbSetBoolean LevelSet gmsh 1
-pdbSetBoolean LevelSet newGmsh 1
-pdbSetBoolean LevelSet gmshParams DebugMesh 1
-
 set OxThick -0.0012
 set LeftDrawn -0.045
 set LeftEff -0.030

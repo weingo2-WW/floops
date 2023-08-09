@@ -61,6 +61,7 @@ plot2d clear
 plot2d grid gas 
 
 
+# struct outfile=etch_iso.tcl.gold.str
+__TestReturn [CompareStruct filename=etch_iso.tcl.gold.str]
 
 
-gets stdin
