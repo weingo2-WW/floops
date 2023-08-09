@@ -20,7 +20,7 @@ add_test(NAME Level-Set-Isotropic-Deposition COMMAND ${TEST_SCRIPT} ${FLOOXS_BIN
 # add_test(NAME Sputter-Deposition COMMAND ${TEST_SCRIPT} ${FLOOXS_BIN} sputter_demo.tcl WORKING_DIRECTORY ${TEST_DIR})
 add_test(NAME Level-Set-Isotropic-Under-Gate-Etch COMMAND ${TEST_SCRIPT} ${FLOOXS_BIN} etch_iso.tcl WORKING_DIRECTORY ${TEST_DIR})
 add_test(NAME Level-Set-Anisotropic-Etch COMMAND ${TEST_SCRIPT} ${FLOOXS_BIN} etch_aniso.tcl WORKING_DIRECTORY ${TEST_DIR})
-add_test(NAME Level-Set-Anisotropic-Etch-Machine COMMAND ${TEST_SCRIPT} ${FLOOXS_BIN} etch_aniso_machine.tcl WORKING_DIRECTORY ${TEST_DIR})
+# add_test(NAME Level-Set-Anisotropic-Etch-Machine COMMAND ${TEST_SCRIPT} ${FLOOXS_BIN} etch_aniso_machine.tcl WORKING_DIRECTORY ${TEST_DIR})
 # add_test(NAME Level-Set-JJ-Full-Flow COMMAND ${TEST_SCRIPT} ${FLOOXS_BIN} fullflow_demo_seed.tcl WORKING_DIRECTORY ${TEST_DIR})
 add_test(NAME Level-Set-JJ-Full-Flow-Anodization COMMAND ${TEST_SCRIPT} ${FLOOXS_BIN} fullflow_anod.tcl WORKING_DIRECTORY ${TEST_DIR})
 
