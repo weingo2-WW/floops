@@ -12,12 +12,6 @@
 #choose the units (nm, um, cm). The default is um.
 options um
 
-#choose LevelSet meshing program: Gmsh is used if  Boolean=1. Tri is used if Boolean=0. The default is Gmsh
-pdbSetBoolean LevelSet gmsh 1  
-#pdbSetBoolean LevelSet gmshParams quad 1  
-pdbSetBoolean LevelSet gmshParams DebugMesh 1  
-
-
 #Define materials (gas is created by default)
 mater add name=mat1 blue
 mater add name=mat2 green
@@ -57,10 +51,10 @@ region mat2        xlo=T2  xhi=T3  ylo=S1  yhi=S2 zlo= Z1 zhi= Z2
 init 
 #define the plot window, then plot with the gas region
 window null
-struct gmsh_write= tmp.msh
 
 deposit silicon rate=0.12 time=0.5 contact= VSS
-puts [contact list]
-# contact mat2 xlo= 0.399 xhi= 0.40001 ylo= -100 yhi= 100 add name=GND
-struct outfile=tmp.str
+
+# struct outfile=dep_contact.tcl.gold.str
+__TestReturn [CompareStruct filename=dep_contact.tcl.gold.str]
+
 

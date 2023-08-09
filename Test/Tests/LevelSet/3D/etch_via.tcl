@@ -47,7 +47,6 @@ region Oxide     xlo=T2  xhi=T4  ylo=S1  yhi=S2 zlo= Z1 zhi= Z2
 init 
 #define the plot window, then plot with the gas region
 window null
-struct gmsh_write= tmp.msh
 
 #mask negative name=mask1 left=-0.15  right=-0.05 front= 0 back= 0.1
 mask negative name=mask1 r= 0.1
@@ -64,6 +63,7 @@ etch machine_name= m1 Oxide aniso mask=mask1 rate=0.1 time= 0.5 spac= 0.02
 
 deposit Niobium rate=0.1 time=1.0 spac= 0.02
 
-# write to gmsh file for visualization
-struct gmsh_write= etch_via.msh
+# struct outfile=etch_via.tcl.gold.str
+__TestReturn [CompareStruct filename=etch_via.tcl.gold.str]
+
 
