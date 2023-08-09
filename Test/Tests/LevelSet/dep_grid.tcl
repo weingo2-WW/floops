@@ -67,8 +67,4 @@ deposit mat3 rate=0.12 time=0.5
 plot2d clear
 plot2d grid gas
 
-
-
-
-
-gets stdin
+__TestReturn [CompareStruct filename=dep_grid.tcl.gold.str]

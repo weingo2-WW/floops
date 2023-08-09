@@ -15,7 +15,7 @@ options um
 #Define materials (gas is created by default)
 mater add name=material1 blue
 mater add name=material2 green
-pdbSet LevelSet gmshParams DebugMesh 1
+pdbSet LevelSet gmshParams DebugMesh 0
 
 #--------------Define the 2d grid of base materials------------------------
 #horizontal lines going top to bottom
@@ -65,9 +65,6 @@ etch material1 aniso mask=mask1 rate=0.2 time=0.1
 plot2d clear
 plot2d grid gas
 
-
-
-
-
-
+# struct outfile=etch_aniso.tcl.gold.str
+__TestReturn [CompareStruct filename=etch_aniso.tcl.gold.str]
 

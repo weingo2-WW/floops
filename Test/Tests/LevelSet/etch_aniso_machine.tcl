@@ -10,9 +10,9 @@
 
 #choose the units (nm, um, cm). The default is um.
 options um
-pdbSet LevelSet gmshParams DebugMesh 1
+pdbSet LevelSet gmshParams DebugMesh 0
 
-pdbSet LevelSet mesh maintain 1
+pdbSet LevelSet mesh maintain 0
 
 #Define materials (gas is created by default)
 mater add name=material1 blue
@@ -40,7 +40,7 @@ region material2        xlo=T2  xhi=T3  ylo=S1  yhi=S2
 #create
 init
 #define the plot window, then plot with the gas region
-window pngcairo file= aniso_machine.png row=1 col=1 width=500 height=500
+window row=1 col=1 width=500 height=500
 plot2d grid gas 
 
 #--------------Define the mask edges----------------------------------------
@@ -65,10 +65,6 @@ etch material1 machine_name= m1 mask=mask1 time=0.6
 plot2d clear
 plot2d grid gas
 
-
-
-
-
-
-
+# struct outfile=etch_aniso_machine.tcl.gold.str
+__TestReturn [CompareStruct filename=etch_aniso_machine.tcl.gold.str]
 
