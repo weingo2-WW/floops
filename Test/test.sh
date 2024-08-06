@@ -4,6 +4,7 @@ if cat output | grep -q ^Passed
 then
   echo -n "Passed "
 else 
-  cat output
+  tail -n 100 output
+  # cat output
   exit 1
 fi	      
