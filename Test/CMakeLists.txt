@@ -28,4 +28,10 @@ set(TEST_DIR "${TEST_DIR_BASE}/LevelSet/3D")
 add_test(NAME Level-Set-3D-Isotropic-Deposition COMMAND ${TEST_SCRIPT} ${FLOOXS_BIN} dep_contact.tcl WORKING_DIRECTORY ${TEST_DIR})
 add_test(NAME Level-Set-3D-Isotropic-Etch COMMAND ${TEST_SCRIPT} ${FLOOXS_BIN} etch_via.tcl WORKING_DIRECTORY ${TEST_DIR})
 
+set(TEST_DIR "${TEST_DIR_BASE}/Diffuse")
+add_test(NAME Diffusion-Trap COMMAND ${TEST_SCRIPT} ${FLOOXS_BIN} Trap.tcl WORKING_DIRECTORY ${TEST_DIR})
+add_test(NAME Diffusion-Seg1v2 COMMAND ${TEST_SCRIPT} ${FLOOXS_BIN} Seg1v2.tcl WORKING_DIRECTORY ${TEST_DIR})
+
+
+
 
