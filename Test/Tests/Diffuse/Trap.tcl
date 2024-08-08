@@ -40,3 +40,7 @@ plot1d graph=Conc name=Final
 sel z=Imp
 puts [layers]
 
+sel z= Imp
+set val [integrate]
+set gold 4.05e13
+__TestReturn [PCErrorTest val= $val gold= $gold]

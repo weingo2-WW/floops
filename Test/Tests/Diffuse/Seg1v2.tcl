@@ -107,3 +107,8 @@ proc Sim1D {} {
 Sim1D
 
 Sim2D ""
+
+sel z= Imp
+set val [integrate]
+set gold 5.6e9
+__TestReturn [PCErrorTest val= $val gold= $gold]
