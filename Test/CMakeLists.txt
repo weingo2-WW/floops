@@ -31,6 +31,8 @@ add_test(NAME Level-Set-3D-Isotropic-Etch COMMAND ${TEST_SCRIPT} ${FLOOXS_BIN} e
 set(TEST_DIR "${TEST_DIR_BASE}/Diffuse")
 add_test(NAME Diffusion-Trap COMMAND ${TEST_SCRIPT} ${FLOOXS_BIN} Trap.tcl WORKING_DIRECTORY ${TEST_DIR})
 add_test(NAME Diffusion-Seg1v2 COMMAND ${TEST_SCRIPT} ${FLOOXS_BIN} Seg1v2.tcl WORKING_DIRECTORY ${TEST_DIR})
+add_test(NAME Diffusion-SurfRecomb COMMAND ${TEST_SCRIPT} ${FLOOXS_BIN} SurfRecomb.tcl WORKING_DIRECTORY ${TEST_DIR})
+
 
 
 
