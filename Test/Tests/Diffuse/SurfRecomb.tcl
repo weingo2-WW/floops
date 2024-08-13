@@ -52,5 +52,9 @@ rta dwell.temp=1100 dwell.time=5.0 cool=60 ramp=100 start.temp=600 init=1.0e-8 u
 }
 
 puts $cur
-set gold 600
-__TestReturn [PCErrorTest val= $cur gold= $gold]
+set gold1 600
+sel z=Inter
+set surf [interpolate x.v=1.0e-9 silicon]
+set gold2 2.578800e+06
+puts $surf
+__TestReturn [expr [PCErrorTest val= $cur gold= $gold1]&&[PCErrorTest val= $surf gold= $gold2]]
