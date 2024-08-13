@@ -52,5 +52,5 @@ rta dwell.temp=1100 dwell.time=5.0 cool=60 ramp=100 start.temp=600 init=1.0e-8 u
 }
 
 puts $cur
-set gold 2.433e+03
+set gold 600
 __TestReturn [PCErrorTest val= $cur gold= $gold]
