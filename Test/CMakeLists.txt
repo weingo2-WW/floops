@@ -32,6 +32,8 @@ set(TEST_DIR "${TEST_DIR_BASE}/Diffuse")
 add_test(NAME Diffusion-Trap COMMAND ${TEST_SCRIPT} ${FLOOXS_BIN} Trap.tcl WORKING_DIRECTORY ${TEST_DIR})
 add_test(NAME Diffusion-Seg1v2 COMMAND ${TEST_SCRIPT} ${FLOOXS_BIN} Seg1v2.tcl WORKING_DIRECTORY ${TEST_DIR})
 add_test(NAME Diffusion-SurfRecomb COMMAND ${TEST_SCRIPT} ${FLOOXS_BIN} SurfRecomb.tcl WORKING_DIRECTORY ${TEST_DIR})
+add_test(NAME Diffusion-DiffComp COMMAND ${TEST_SCRIPT} ${FLOOXS_BIN} DiffComp.tcl WORKING_DIRECTORY ${TEST_DIR})
+add_test(NAME Diffusion-DiffNonLin COMMAND ${TEST_SCRIPT} ${FLOOXS_BIN} DiffNonLin.tcl WORKING_DIRECTORY ${TEST_DIR})
 
 
 
