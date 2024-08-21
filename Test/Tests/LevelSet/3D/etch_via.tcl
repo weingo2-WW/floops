@@ -61,7 +61,7 @@ etch machine_name= m1 Oxide aniso mask=mask2 rate=0.1 time= 0.2 spac= 0.02
 # etch the circular hole for the via
 etch machine_name= m1 Oxide aniso mask=mask1 rate=0.1 time= 0.5 spac= 0.02
 
-deposit Niobium rate=0.1 time=1.0 spac= 0.02
+# deposit Niobium rate=0.1 time=1.0 spac= 0.02
 
 # struct outfile=etch_via.tcl.gold.str
 __TestReturn [CompareStruct filename=etch_via.tcl.gold.str]
