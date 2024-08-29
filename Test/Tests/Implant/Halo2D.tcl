@@ -81,4 +81,5 @@ p1d "yv=0.20" "xmax=0.25"
 p1d "xv=0.03" ""
 
 sel z= Halo0+Halo15+Halo30+Halo45+Halo60
-__TestReturn [PCErrorTest val= [integrate] gold= 5.01086e+09]
+set val [integrate]
+__TestReturn [PCErrorTest val= $val gold= 5.01086e+09]

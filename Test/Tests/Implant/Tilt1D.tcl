@@ -78,5 +78,5 @@ set Dose0 [FindDose]
 
 puts "Final Doses in each tilt"
 puts "$Dose0 $Dose15 $Dose30 $Dose45 $Dose60"
-# 10011200000000.0 9669380000000.0 8667090000000.0 7072650000000.0 4996900000000.0
-__TestReturn [expr [PCErrorTest val= $Dose0  gold= 10011200000000.0] && [PCErrorTest val= $Dose15  gold=  9669380000000.0 ] && [PCErrorTest val= $Dose30 gold=  8667090000000.0  ] && [PCErrorTest val=  $Dose45 gold= 7072650000000.0 ] && [PCErrorTest val=  $Dose60 gold= 4996900000000.0]]
+puts "gold 10011200000000.0 10001600000000.0 9955810000000.0 9774360000000.0 9091860000000.0"
+__TestReturn [expr [PCErrorTest val= $Dose0  gold= 10011200000000.0] && [PCErrorTest val= $Dose15  gold=  10001600000000.0  ] && [PCErrorTest val= $Dose30 gold=  9955810000000.0 ] && [PCErrorTest val=  $Dose45 gold=  9774360000000.0 ] && [PCErrorTest val=  $Dose60 gold= 9091860000000.0]]

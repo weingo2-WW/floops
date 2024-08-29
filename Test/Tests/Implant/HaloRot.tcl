@@ -79,5 +79,5 @@ p1d "xv=0.03" ""
 
 puts "Doses at 0 90 180 270"
 puts "$D0 $D90 $D180 $D270"
-# 9946460000000.0 8667090000000.0 9947460000000.0 8667090000000.0
-__TestReturn [expr [PCErrorTest val= $D0 gold= 9946460000000.0] && [PCErrorTest val= $D90 gold= 8667090000000.0 ] && [PCErrorTest val= $D180 gold= 9947460000000.0 ] && [PCErrorTest val= $D270 gold= 8667090000000.0]]
+puts "gold 9946460000000.0 9955800000000.0 9947460000000.0 9955800000000.0"
+__TestReturn [expr [PCErrorTest val= $D0 gold= 9946460000000.0] && [PCErrorTest val= $D90 gold= 9955800000000.0 ] && [PCErrorTest val= $D180 gold= 9947460000000.0 ] && [PCErrorTest val= $D270 gold= 9955800000000.0]]

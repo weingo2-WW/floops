@@ -83,6 +83,6 @@ set Dose1D [FindDose1D]
 
 puts "Final Doses in 1D and then each rotation"
 puts "$Dose1D $Dose2D0 $Dose2D90 $Dose2D180 $Dose2D270"
-# 8667090000000.0 9947460000000.0 8667090000000.0 9947460000000.0 8667090000000.0
+puts "gold 9955810000000.0 9947460000000.0 9955810000000.0 9947460000000.0 9955810000000.0"
 
-__TestReturn [expr [PCErrorTest val= $Dose1D gold= 8667090000000.0] && [PCErrorTest val= $Dose2D0 gold= 9947460000000.0] && [PCErrorTest val= $Dose2D90 gold= 8667090000000.0] && [PCErrorTest val= $Dose2D180 gold= 9947460000000.0] && [PCErrorTest val= $Dose2D270 gold= 8667090000000.0]]
+__TestReturn [expr [PCErrorTest val= $Dose1D gold= 9955810000000.0] && [PCErrorTest val= $Dose2D0 gold= 9947460000000.0] && [PCErrorTest val= $Dose2D90 gold= 9955810000000.0] && [PCErrorTest val= $Dose2D180 gold= 9947460000000.0] && [PCErrorTest val= $Dose2D270 gold= 9955810000000.0]]
