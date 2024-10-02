@@ -54,9 +54,7 @@ plot2d grid gas
 
 #--------------Run the etch command and plot--------------------------------
 #isotropic etch, only interesting with a physical mask made by mat1
-machine iso mat2 rate= 0.2 name= m1
-machine iso mat1 rate= 0.005 name= m1
-etch mat2 machine_name= m1 time=0.5
+etch mat2 iso rate=0.1 time=0.5 internal
 plot2d clear
 plot2d grid gas 
 

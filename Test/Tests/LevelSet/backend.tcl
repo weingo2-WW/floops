@@ -13,55 +13,42 @@ options um
 
 pdbSet LevelSet debug setSeeds 1
 
-#Define materials (gas is created by default)
-mater add name=mat1 blue
-mater add name=mat2 green
-mater add name=mat3 magenta
-
 #--------------Define the 2d grid of base materials------------------------
 #horizontal lines going top to bottom
 line x loc=0.000 spac=0.010    tag=T1
 line x loc=0.100 spac=0.010    tag=T2
-line x loc=0.200 spac=0.010    tag=T3
-line x loc=0.600 spac=0.010    tag=T4
 
 
 #vertical lines going left to right
 line y loc=0.000 spac=0.010     tag=S1
-line y loc=0.200 spac=0.010     tag=S2
-line y loc=0.400 spac=0.010     tag=S3
-line y loc=0.600 spac=0.010     tag=S4
-
+line y loc=0.600 spac=0.010     tag=S2
 
 
 #--------------Define the material regions in the 2d grid------------------
 #lo is top or right, hi is bottom or left
-region gas       xlo=T1  xhi=T2  ylo=S1  yhi=S4
-region gas       xlo=T2  xhi=T3  ylo=S1  yhi=S2
-region gas       xlo=T2  xhi=T3  ylo=S3  yhi=S4
-region mat1      xlo=T2  xhi=T3  ylo=S2  yhi=S3
-region mat2      xlo=T3  xhi=T4  ylo=S1  yhi=S4
+region metal     xlo=T1  xhi=T2  ylo=S1  yhi=S2
 
-
-#--------------Create the grid and visualize-------------------------------
-#create
 init
+
+#deposit an insulator on top
+deposit oxide rate=0.1 time=1
+
+#etch a contact hole
+mask negative name=hole left=0.25 right=0.35
+etch aniso mask=hole time=1.2 rate=0.1 oxide
+
 #define the plot window, then plot with the gas region
 window row=1 col=1 width=600 height=600
 plot2d grid gas graph=etch
 
-#-------------Deposit a material to polish---------------------------------
-deposit mat3 rate=0.1 time=1.5 
+#fill the hole
+deposit metal rate=0.1 time=1
 plot2d grid gas graph=etch
 
 #--------------Run the cmp etch command and plot--------------------------------
 #polishing mat3
-etch mat3 cmp rate=0.1 time=1.3 spacing=0.005 debug=etch internal
-plot2d clear graph=etch
+etch metal cmp rate=0.1 time=1.2 debug=etch internal
 plot2d grid gas graph=etch
 
-
-# struct outfile=etch_cmp.tcl.gold.str
-__TestReturn [CompareStruct filename=etch_cmp.tcl.gold.str]
-
-
+# struct outfile=backend.tcl.gold.str
+__TestReturn [CompareStruct filename=backend.tcl.gold.str]

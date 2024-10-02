@@ -82,7 +82,7 @@ plot2d grid gas
 
 #2D axisymmetric
 if {1} {
-sputter mat3 rate=0.12 time=0.5 targetHeight=1 targetDiameter=1 3D
+sputter mat3 rate=0.12 time=0.5 3D
 plot2d clear
 plot2d grid gas
 sputter mat3 rate=0.12 time=0.5
