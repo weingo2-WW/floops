@@ -44,7 +44,7 @@ plot2d grid gas
 
 #--------------Define the mask edges----------------------------------------
 #only a single window is allowed in a single command
-mask name=mask1 left=0.100  right=0.200
+mask name=mask1 left=0.100  right=0.200 negative
 mask name=mask2 negative left=0.300  right=0.400
 
 #--------------Run the etch command and plot--------------------------------
