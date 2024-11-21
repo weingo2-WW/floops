@@ -55,11 +55,11 @@ mask name=PosMask positive left=-0.300  right=-0.100 thick=0.1
 
 window row=1 col=3 width=600 height=600
 etchcomp NegMask 
-struct outfile=masknegpos.tcl.gold.1.str
+# struct outfile=masknegpos.tcl.gold.1.str
 set first [CompareStruct filename=masknegpos.tcl.gold.1.str]
 
 etchcomp PosMask 
-struct outfile=masknegpos.tcl.gold.2.str
+# struct outfile=masknegpos.tcl.gold.2.str
 __TestReturn [expr $first&&[CompareStruct filename=masknegpos.tcl.gold.2.str]]
 
 
