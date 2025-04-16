@@ -1,0 +1,166 @@
+#SMC  prototype of stress solves with history included for 3d
+# using tetgen to get fine mesh since internal tet generation is crashing
+# eventually all post processing should be added to alagator
+
+#wrapper for using device command for stress solve for now
+# need to clear after each solve 
+proc stresssolve {} {
+    device 
+    # eventually embed in new stress command like device 
+    # also move to stress tracking vs strain will clean this up
+    calcstress
+    # this needs to be post stress calc to store history
+    sel z=Strain(XX,displacement)+UStrainXX+pstrainxx name=pstrainxx
+    sel z=Strain(YY,displacement)+UStrainYY+pstrainyy name=pstrainyy
+    sel z=Strain(ZZ,displacement)+UStrainZZ+pstrainzz name=pstrainzz
+    sel z=Strain(XY,displacement)+pstrainxy name=pstrainxy
+    sel z=Strain(YZ,displacement)+pstrainyz name=pstrainyz
+    sel z=Strain(XZ,displacement)+pstrainxz name=pstrainxz
+
+    #store acc displacement
+    sel z=displacement.x+accdisp.x name=accdisp.x
+    sel z=displacement.y+accdisp.y name=accdisp.y
+    sel z=displacement.z+accdisp.z name=accdisp.z
+    # put this before or after device command after seems best???
+    sel z=0.0 name=displacement.x
+    sel z=0.0 name=displacement.y
+    sel z=0.0 name=displacement.z
+    sel z=0.0 name=UStrainZZ
+    sel z=0.0 name=UStrainYY
+    sel z=0.0 name=UStrainXX
+    # this is needed in case structure changes between calls
+    device clear
+}
+
+math diffuse dim=2 umf none col !scale 
+math diffuse dim=3 umf none col !scale 
+
+proc setupstress {} {
+    # don't solve the potential
+    solution name=Potential nosolve 
+    # solve for displacemnt
+    solution name = displacement add solve dim continuous 
+    # set reflecting BCs
+    pdbSetBoolean ReflectLeft displacement Fixed.y 1 
+    pdbSetString ReflectLeft displacement Equation "displacement" 
+    pdbSetBoolean ReflectRight displacement Fixed.y 1 
+    pdbSetString ReflectRight displacement Equation "displacement" 
+    pdbSetBoolean ReflectBottom displacement Fixed.x 1 
+    pdbSetString ReflectBottom displacement Equation "displacement" 
+    pdbSetBoolean ReflectBack displacement Fixed.z 1 
+    pdbSetString ReflectBack displacement Equation "displacement" 
+    pdbSetBoolean ReflectFront displacement Fixed.z 1 
+    pdbSetString ReflectFront displacement Equation "displacement" 
+
+    # this probably needs to be in the PDB set for all mats
+    pdbSetBoolean Silicon displacement Negative 1 
+    pdbSetBoolean ReflectLeft displacement Negative 1 
+    pdbSetBoolean ReflectRight displacement Negative 1 
+    pdbSetBoolean ReflectBottom displacement Negative 1 
+    pdbSetBoolean ReflectFront displacement Negative 1 
+    pdbSetBoolean ReflectBack displacement Negative 1 
+    pdbSetDouble Silicon displacement Abs.Error 1.0e-8 
+    pdbSetDouble ReflectLeft displacement Abs.Error 1.0e-8 
+    pdbSetDouble ReflectRight displacement Abs.Error 1.0e-8 
+    pdbSetDouble ReflectBottom displacement Abs.Error 1.0e-8 
+    pdbSetDouble ReflectBack displacement Abs.Error 1.0e-8 
+    pdbSetDouble ReflectFront displacement Abs.Error 1.0e-8 
+    pdbSetBoolean nitride displacement Negative 1 
+    pdbSetDouble nitride displacement Abs.Error 1.0e-8 
+    pdbSetBoolean oxide displacement Negative 1 
+    pdbSetDouble oxide displacement Abs.Error 1.0e-8 
+    pdbSetBoolean poly displacement Negative 1 
+    pdbSetDouble poly displacement Abs.Error 1.0e-8 
+}
+
+#Set Youngs Modulus and Poissons Ratio 
+pdbSetString Silicon YoungsModulus 1.22e12 
+pdbSetString Silicon PoissonRatio 0.3 
+pdbSetString nitride YoungsModulus 3e12 
+pdbSetString nitride PoissonRatio 0.25 
+pdbSetString oxide YoungsModulus 3e12 
+pdbSetString oxide PoissonRatio 0.25 
+pdbSetString poly YoungsModulus 3e12 
+pdbSetString poly PoissonRatio 0.25 
+
+# call setup routines
+setupstress
+#Set up grid 
+line x loc=-0.05 tag=nit spa=0.01
+line x loc=0.0 tag=top spa=0.01 
+line x loc=1.0 tag=bot spa=0.1 
+
+line y loc=0.0 tag=left spa=0.05
+line y loc=0.1 tag=mid spa=0.01 
+line y loc=0.2 tag=right spa=0.05 
+
+line z loc=0.0 tag= back  spa=0.05
+line z loc=0.1 tag= midz spa=0.01
+line z loc=0.2 tag= front spa=0.05
+
+#Define silicon, nitride, and gas region 
+region silicon xlo=top xhi=bot ylo=left yhi=right zlo=back  zhi=front
+region oxide xlo=nit xhi=top ylo=left yhi=mid zlo=back  zhi=front
+region nitride xlo=nit xhi=top ylo=mid yhi=right zlo=midz  zhi=front
+region poly xlo=nit xhi=top ylo=mid yhi=right zlo=back  zhi=midz
+
+init quad
+newregrid3d
+sel z=1*Mater(Silicon) name=matid
+sel z=2*Mater(Oxide)+matid name=matid
+sel z=3*Mater(Nitride)+matid name=matid
+sel z=4*Mater(Poly)+matid name=matid
+#SMC ?? solution name = Temp const val = 1000 add solve 
+
+#Evaluate the matrix for silicon
+set c00 [expr (1.22e12 * (1.0 - 0.3) / ((1.0 + 0.3) * (1.0 - 2*0.3)))]
+set c01 [expr ($c00 * 0.3 / (1-0.3))]
+set c22 [expr (0.5 * $c00 * (1.0 - 2*0.3) / (1.0 - 0.3))]
+pdbSetString Silicon displacement Equation "STensor( $c00, $c01, $c22 ) * elastic(displacement) + STensor( $c00, $c01, $c22 ) * strain(UStrainXX, UStrainYY, UStrainZZ, 0.0, 0.0, 0.0) + STensor( $c00, $c01, $c22 ) * strain(pstrainxx, pstrainyy, pstrainzz, pstrainxy, pstrainyz, pstrainxz)"
+set Sic00 $c00
+set Sic01 $c01
+set Sic22 $c22
+
+#Evaluate the matrix for nitride
+set c00 [expr (3.0e12 * (1.0 - 0.25) / ((1.0 + 0.25) * (1.0 - 2*0.25)))]
+set c01 [expr ($c00 * 0.25 / (1-0.25))]
+set c22 [expr (0.5 * $c00 * (1.0 - 2*0.25) / (1.0 - 0.25))]
+set strn -0.001
+#pdbSetString Nitride displacement Equation "STensor( $c00, $c01, $c22 ) * elastic(displacement) + STensor( $c00, $c01, $c22 ) * strain($strn, $strn, 0.0)"
+sel z=mater(Nitride)*$strn+mater(Oxide)*$strn+mater(Poly)*$strn name=UStrainXX
+sel z=mater(Nitride)*$strn+mater(Oxide)*$strn+mater(Poly)*$strn name=UStrainYY
+sel z=mater(Nitride)*$strn+mater(Oxide)*$strn+mater(Poly)*$strn name=UStrainZZ
+
+pdbSetString Nitride displacement Equation "STensor( $c00, $c01, $c22 ) * elastic(displacement) + STensor( $c00, $c01, $c22 ) * strain(UStrainXX, UStrainYY, UStrainZZ, 0.0, 0.0, 0.0) + STensor( $c00, $c01, $c22 ) * strain(pstrainxx, pstrainyy, pstrainzz, pstrainxy, pstrainyz, pstrainxz)"
+pdbSetString Oxide displacement Equation "STensor( $c00, $c01, $c22 ) * elastic(displacement) + STensor( $c00, $c01, $c22 ) * strain(UStrainXX, UStrainYY, UStrainZZ, 0.0, 0.0, 0.0) + STensor( $c00, $c01, $c22 ) * strain(pstrainxx, pstrainyy, pstrainzz, pstrainxy, pstrainyz, pstrainxz)"
+pdbSetString Poly displacement Equation "STensor( $c00, $c01, $c22 ) * elastic(displacement) + STensor( $c00, $c01, $c22 ) * strain(UStrainXX, UStrainYY, UStrainZZ, 0.0, 0.0, 0.0) + STensor( $c00, $c01, $c22 ) * strain(pstrainxx, pstrainyy, pstrainzz, pstrainxy, pstrainyz, pstrainxz)"
+
+sel z=0.0 name=pstrainxx
+sel z=0.0 name=pstrainyy
+sel z=0.0 name=pstrainzz
+sel z=0.0 name=pstrainxy
+sel z=0.0 name=pstrainyz
+##  This is usually zx
+sel z=0.0 name=pstrainxz
+# store accumulated displacement
+sel z=0.0 name=accdisp.x
+sel z=0.0 name=accdisp.y
+sel z=0.0 name=accdisp.z
+# stress solve
+stresssolve
+set doplt 0
+if { $doplt } { struct vtk=stress3d_init.vtu }
+# second solve
+stresssolve
+if { $doplt } { struct vtk=stress3d_2nd.vtu }
+# etch oxide
+strip oxide
+stresssolve
+if { $doplt } { struct vtk=stress3d_postoxtch.vtu }
+# etch poly
+strip poly
+stresssolve
+if { $doplt } { struct vtk=stress3d_postpolyetch.vtu }
+struct outf=stress3d.fstr
+init inf=stress3d.fstr
+__TestReturn [CompareStruct filename=stress3d.fstr.ref]

@@ -47,6 +47,8 @@ add_test(NAME Implant-HaloDim COMMAND ${TEST_SCRIPT} ${FLOOXS_BIN} HaloDim.tcl W
 add_test(NAME Implant-HaloRot COMMAND ${TEST_SCRIPT} ${FLOOXS_BIN} HaloRot.tcl WORKING_DIRECTORY ${TEST_DIR})
 add_test(NAME Implant-Tilt1D COMMAND ${TEST_SCRIPT} ${FLOOXS_BIN} Tilt1D.tcl WORKING_DIRECTORY ${TEST_DIR})
 
+set(TEST_DIR "${TEST_DIR_BASE}/Stress")
+add_test(NAME Stress3d COMMAND ${TEST_SCRIPT} ${FLOOXS_BIN} stress3d.fi WORKING_DIRECTORY ${TEST_DIR})
 
 
 
